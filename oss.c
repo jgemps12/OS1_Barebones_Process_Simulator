@@ -6,7 +6,7 @@
 
 
 // The oss.c file works with PARENT processes.
-// It 
+// It launches a specific number of user processes with user input gathered from the 'getopt()' switch statement. 
 
 
 #include <unistd.h>
@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 
 // Displays error message if user uses correct arguments, but inputs negative numbers.
@@ -42,6 +43,7 @@ void checkForSimulExceedsProcError(int simulProcesses, int totalProcesses) {
    }
 }
 
+
 // Displays a help message if user enters './oss -h'.
 void printHelpMessage() {
    printf("\n\n\nThis program displays information about child and parent processes, including:\n");
@@ -51,10 +53,10 @@ void printHelpMessage() {
 
    printf("\n\nTo execute this program, type './oss', then type in any combination of options:\n");
    printf("Option:           What to enter after option:              Required (yes/no):             Description:\n");   
-   printf(" -h                 nothing.                                 no                             Displays this help menu.\n");                              
-   printf(" -n [proc]          an integer between 1 and 10.             no; defaults to 1.             Runs a total # of processes.\n");
-   printf(" -s [simul]         an integer smaller than '-n [proc]'.     no; defaults to 1.             Runs a max # of processes simultaneously.\n");
-   printf(" -t [iter]          an integer of at least 1.                no; defaults to 1.             Iterates through all processes a total # of times.\n\n");
+   printf("  -h                nothing.                                 no                             Displays this help menu.\n");                              
+   printf("  -n [proc]         an integer between 1 and 10.             no; defaults to 1.             Runs a total # of processes.\n");
+   printf("  -s [simul]        an integer smaller than '-n [proc]'.     no; defaults to 1.             Runs a max # of processes simultaneously.\n");
+   printf("  -t [iter]         an integer of at least 1.                no; defaults to 1.             Iterates through all processes a total # of times.\n\n");
 
    printf("For example, typing './oss -n 6 -s 4 -t 2' will run:\n");
    printf("\t1.) a total of 6 processes.\n");
@@ -76,7 +78,7 @@ int main(int argc, char** argv) {
 
 
    // If user puts invalid values for opt arguments, one of these strings will be passed into 'checkForOptargError()'.
-   // This will tell the user where the error occurred when trying to execute './oss'.
+   // This will help state the option in which the error occurred while trying to execute './oss'.
    char procName[] = "-n [proc]";
    char simulName[] = "-s [simul]";
    char iterName[] = "-t [iter]";
@@ -118,13 +120,69 @@ int main(int argc, char** argv) {
       }
    }
 
-   printf("proc = %d \t simul = %d \t iter = %d\n", proc, simul, iter);
+   bool processesFinished = false;
+   int childrenActive = 0;                                          // # of children running simultaneously (not to be confused with 'proc').
+   int totalChildrenLaunched = 0;                                   // # of children launched so far (not to be confused with 'simul').
 
 
-   // Split a child process from a parent.
-   pid_t childPid = fork();
+   // Stores the total iteration count into string to facilatate execl()'s operation.
+   char iteration_count[50];                                     
+   sprintf(iteration_count, "%d", iter);
 
-   
+
+   while (processesFinished == false) {
+
+
+      // If not all possible children are run yet AND the # of simultaneous children is less than maximum, continue running processes.
+      if (childrenActive < simul && totalChildrenLaunched < proc) {
+
+
+         // Split a child process from a parent.
+         pid_t childPid = fork();
+      
+	 
+	 // Work with child process. Send [iter] to user.c to execute the child process.
+	 if (childPid == 0) {
+            execl("./user", "user", iteration_count, NULL);
+            
+	    printf("ERROR in oss.c: the execl() function has failed. Terminating program.\n\n");
+	    exit(-1);
+	 }
+
+
+	 // Work with parent process. Increment the current # of total children and those running simultaneously.
+	 else if (childPid > 0) {
+            childrenActive++;
+	    totalChildrenLaunched++;
+	 }
+
+
+	 else {
+            printf("ERROR in oss.c: the fork() function has failed. Terminating program.\n\n");
+	    exit(-1);
+	 }
+      }  
+
+
+      // If no more children are running and the maximum # of total children have been launched, end loop/program.
+      if (childrenActive == 0 && totalChildrenLaunched == proc) {
+         processesFinished = true;
+      }
+ 
+
+      // If the limit of simultaneous children has been reached, but more still need to be launched, wait for them to terminate.
+      if (childrenActive == simul && totalChildrenLaunched < proc) {
+         wait(0);
+	 childrenActive--;
+      }
+
+
+      // If all available children have launched, but not all of them finished, wait for them to terminate.
+      if (childrenActive > 0 && totalChildrenLaunched == proc) {
+	 wait(0);
+	 childrenActive--; 
+      }
+   }
 
    return EXIT_SUCCESS;
 }
