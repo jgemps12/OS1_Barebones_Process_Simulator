@@ -14,16 +14,21 @@
 #include <sys/wait.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
-// Displays error message if user uses correct arguments, but inputs negative numbers or those greater than 10.
-// A maximum of 10 ensures that the opsys server can handle execution of the './oss' operation.
-void checkForOptargError(int value, char getoptArgument[]) {
-   if (value <= 0 || value > 10) {
-      printf("ERROR in oss.c: User must enter a number between 1 and 10 for argument %s.\n\n", getoptArgument);
+// Displays error message if user uses correct arguments, but inputs negative numbers.
+// Also enforces a maximum of 10 for '-n [proc]' argument. This ensures the opsys server's efficient execution of './oss'.
+void checkForOptargEntryError(int value, char getoptArgument[]) {
+   if ((value <= 0 || value > 10)  && (strcmp(getoptArgument, "-n [proc]") == 0)) {
+      printf("ERROR in oss.c: User must enter an integer between 1 and 10 for argument %s.\n\n", getoptArgument);
  
       exit(-1);
-      
+   }
+   if (value <= 0 && (strcmp(getoptArgument, "-n [proc]") != 0)) {
+      printf("ERROR in oss.c: User must enter a positive integer for argument %s.\n\n", getoptArgument);
+
+      exit(-1);
    }
 }
 
@@ -65,20 +70,20 @@ int main(int argc, char** argv) {
 
          case 'n':
             proc = atoi(optarg);
-	    checkForOptargError(proc, procName);
+	    checkForOptargEntryError(proc, procName);
 
             break;
 
          case 's':
             simul = atoi(optarg);
-            checkForOptargError(simul, simulName);
+            checkForOptargEntryError(simul, simulName);
 	    checkForSimulExceedsProcError(simul, proc);
 
             break;
 
          case 't':
             iter = atoi(optarg);
-            checkForOptargError(iter, iterName);
+            checkForOptargEntryError(iter, iterName);
 
             break;
 
