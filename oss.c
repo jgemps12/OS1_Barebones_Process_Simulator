@@ -1,5 +1,5 @@
 /* Jesse Gempel
- * 2/6/2025
+ * 2/7/2025
  * Professor Mark Hauschild
  * CMP SCI 4760-001
 */
@@ -42,6 +42,28 @@ void checkForSimulExceedsProcError(int simulProcesses, int totalProcesses) {
    }
 }
 
+// Displays a help message if user enters './oss -h'.
+void printHelpMessage() {
+   printf("\n\n\nThis program displays information about child and parent processes, including:\n");
+   printf("\t1.) Process IDs (or PIDs).\n");
+   printf("\t2.) Parent process IDs (or PPIDs).\n");
+   printf("\t3.) The iteration of a loop that displays PIDs and PPIDs.\n\n");
+
+   printf("\n\nTo execute this program, type './oss', then type in any combination of options:\n");
+   printf("Option:           What to enter after option:              Required (yes/no):             Description:\n");   
+   printf(" -h                 nothing.                                 no                             Displays this help menu.\n");                              
+   printf(" -n [proc]          an integer between 1 and 10.             no; defaults to 1.             Runs a total # of processes.\n");
+   printf(" -s [simul]         an integer smaller than '-n [proc]'.     no; defaults to 1.             Runs a max # of processes simultaneously.\n");
+   printf(" -t [iter]          an integer of at least 1.                no; defaults to 1.             Iterates through all processes a total # of times.\n\n");
+
+   printf("For example, typing './oss -n 6 -s 4 -t 2' will run:\n");
+   printf("\t1.) a total of 6 processes.\n");
+   printf("\t2.) a maximum of 4 processes simultaneously.\n");
+   printf("\t3.) a total of 2 iterations (i.e., 6 processes will begin and terminate twice, with up to 4 running simultaneously).\n\n\n");
+
+   exit(0);
+}
+
 
 int main(int argc, char** argv) {
    
@@ -63,8 +85,7 @@ int main(int argc, char** argv) {
    while ((opt = getopt(argc, argv, "hn:s:t:")) != -1) {
       switch (opt) {
          case 'h':
-            printf("help\n");
-	    exit(0);
+            printHelpMessage();
 
 	    break;
 
