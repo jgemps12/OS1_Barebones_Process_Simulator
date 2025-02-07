@@ -5,7 +5,7 @@
 */
 
 
-// The user,c file works with CHILD processes.
+// The user.c file works with CHILD processes.
 // It prints out child and parent process IDs to the user for a user-specified number of iterations.
 
 
@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
    // Otherwise, present error and terminate program.
    if (argc != 2) {
       printf("ERROR in 'user.c': You must enter ./user followed by a single integer.\n");
-      printf("\tExample: ./user 5\n");
+      printf("Example: ./user 5\n\n");
 
       exit(-1);
    }
@@ -39,10 +39,10 @@ int main(int argc, char** argv) {
    // Perform sleep operation during an iteration.
    int i;
    for (i = 0; i < iter; i++) {
-      printf("USER PID: %d   PPID: %d  Iteration: %d ---before sleeping\n", getpid(), getppid(), i + 1);
+      printf("\nUSER PID: %d   PPID: %d  Iteration: %d ---before sleeping\n", getpid(), getppid(), i + 1);
       sleep(1);
 
-      printf("USER PID: %d   PPID: %d  Iteration: %d ---after sleeping\n\n", getpid(), getppid(), i + 1);
+      printf("USER PID: %d   PPID: %d  Iteration: %d ---after sleeping\n", getpid(), getppid(), i + 1);
    }
 
 
