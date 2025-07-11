@@ -20,7 +20,6 @@ void checkForOptargEntryError(int value, char getoptArgument[]) {
    }
 }
 
-
 // Displays error message if # of simlataneous processes exceeds the total process count.
 void checkForSimulExceedsProcError(int simulProcesses, int totalProcesses) {
    if (simulProcesses > totalProcesses) {
@@ -30,10 +29,7 @@ void checkForSimulExceedsProcError(int simulProcesses, int totalProcesses) {
    }
 }
 
-
-
 /***************************************************USER GUIDANCE******************************************************/
-
 // Displays a help message if user enters './oss -h'.
 void printHelpMessage() {
    printf("\n\n\nThis program displays information about child and parent processes, including:\n");
@@ -55,7 +51,3 @@ void printHelpMessage() {
 
    exit(0);
 }
-
-
-
-
