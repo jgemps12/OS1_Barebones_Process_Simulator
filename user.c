@@ -1,14 +1,5 @@
-/* Jesse Gempel
- * 2/7/2025
- * Professor Mark Hauschild
- * CMP SCI 4760-001
-*/
-
-
 // The user.c file works with CHILD processes.
 // It prints out child and parent process IDs to the user for a user-specified number of iterations.
-
-
 #include <unistd.h>
 #include <sys/types.h>
 #include <stdio.h>
@@ -39,7 +30,7 @@ int main(int argc, char** argv) {
    // Perform sleep operation during an iteration.
    int i;
    for (i = 0; i < iter; i++) {
-      printf("\nUSER PID: %d   PPID: %d  Iteration: %d ---before sleeping\n", getpid(), getppid(), i + 1);
+      printf("USER PID: %d   PPID: %d  Iteration: %d ---before sleeping\n", getpid(), getppid(), i + 1);
       sleep(1);
 
       printf("USER PID: %d   PPID: %d  Iteration: %d ---after sleeping\n", getpid(), getppid(), i + 1);

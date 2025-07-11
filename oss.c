@@ -1,14 +1,5 @@
-/* Jesse Gempel
- * 2/7/2025
- * Professor Mark Hauschild
- * CMP SCI 4760-001
-*/
-
-
 // The oss.c file works with PARENT processes.
 // It launches a specific number of user processes with user input gathered from the 'getopt()' switch statement. 
-
-
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -166,6 +157,8 @@ int main(int argc, char** argv) {
 
       // If no more children are running and the maximum # of total children have been launched, end loop/program.
       if (childrenActive == 0 && totalChildrenLaunched == proc) {
+	 printf("All %d children have finished running. Now terminating program.\n", proc);
+
          processesFinished = true;
       }
  
