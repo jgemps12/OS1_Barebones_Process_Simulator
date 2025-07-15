@@ -99,13 +99,13 @@ int main(int argc, char** argv) {
  
       // If the limit of simultaneous children has been reached, but more still need to be launched, wait for them to terminate.
       if (childrenActive == simul && totalChildrenLaunched < proc) {
-         wait(0);
+         waitpid(-1, NULL, 0);
 	 childrenActive--;
       }
 
       // If all available children have launched, but not all of them finished, wait for them to terminate.
       if (childrenActive > 0 && totalChildrenLaunched == proc) {
-	 wait(0);
+	 waitpid(-1, NULL, 0);
 	 childrenActive--; 
       }
    }
