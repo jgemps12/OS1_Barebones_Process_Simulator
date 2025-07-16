@@ -4,7 +4,6 @@
 
 
 /************************************************USER INPUT VALIDATION*************************************************/
-
 // Displays error message if user uses correct arguments, but inputs negative numbers.
 // Also enforces a maximum of 10 for '-n [proc]' argument. This ensures the opsys server's efficient execution of './oss'.
 void checkForOptargEntryError(int value, char getoptArgument[]) {
