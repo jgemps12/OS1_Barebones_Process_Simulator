@@ -41,9 +41,9 @@ Upon typing this command into the terminal:
 ./oss -n 6 -s 4 -t 3
 ```
 The program runs:
-- 6 processes *total*.
-- 4 processes *simultaneously*.
-- 3 *iterations* of each process (i.e., each child prints its PID and PPID three times).
+- 6 processes **total**.
+- 4 processes **simultaneously**.
+- 3 **iterations** of each process (i.e., each child prints its PID and PPID three times).
 
 #### Sample Output:
 ```bash
@@ -64,9 +64,9 @@ Similarly, this command:
 ./oss -n 8 
 ```
 The program runs:
-- 8 processes *total*.
-- 1 process *simultaneously*.
-- 1 *iteration* of each process.
+- 8 processes **total**.
+- 1 process **simultaneously**.
+- 1 **iteration** of each process.
 #### Sample Output:
 ```bash
 USER PID: 595017   PPID: 595016  Iteration: 1 ---before sleeping
