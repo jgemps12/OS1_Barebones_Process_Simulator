@@ -19,12 +19,10 @@ int main(int argc, char** argv) {
       exit(-1);
    }
 
-
    // Store user input that determines how many times the for-loop below will iterate.
    if (argc == 2) { 
       iter = atoi(argv[1]);
    }
-
 
    // Output each child's Process ID and its parents Process ID [iter] number of times.
    // Perform sleep operation during an iteration.
@@ -35,9 +33,6 @@ int main(int argc, char** argv) {
 
       printf("USER PID: %d   PPID: %d  Iteration: %d ---after sleeping\n", getpid(), getppid(), i + 1);
    }
-
-
+   
    return EXIT_SUCCESS;
-
 }
-
