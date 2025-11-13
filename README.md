@@ -97,7 +97,7 @@ All 8 children have finished running. Now terminating program.
 ```
 
 ## Skills Learned:
-- Created a simplified simulation for process management an operating system.
+- Created a simplified simulation for process management in an operating system.
 - Used `getopt()` for command-line parsing and input handling.
 - Used `fork()` to create multiple child processes.
 - Used `sleep()` for segueing the runtimes of each process.
