@@ -9,6 +9,7 @@ This project simulates the behavior of a basic operating system. It launches a s
   - `getopt()` for command line argument parsing.
   - `fork()` for process creation.
   - `waitpid()` for process control.
+  - `sleep()` for printing messages every **1 second**.
 - Prints out information about each child process, including its:
   - Process ID (PID).
   - Parent's process ID (PPID).
@@ -38,44 +39,60 @@ make
 ### Example 1:
 Upon typing this command into the terminal:
 ```bash
-./oss -n 6 -s 4 -t 3
+./oss -n 2 -s 2 -t 4
 ```
 The program runs:
-- 6 processes **total**.
-- 4 processes **simultaneously**.
-- 3 **iterations** of each process (i.e., each child prints its PID and PPID three times).
+- 2 processes **total**.
+- 2 processes **simultaneously**.
+- 4 **iterations** of each process (i.e., each child prints its PID and PPID three times).
 
 #### Sample Output:
+The program begins by launching 2 child processes (i.e., PIDs **3986223** and **3986224**) simultaneously. For each iteration, user.c calls **sleep()**, forcing each child to sleep for exactly 1 second before waking up. 
 ```bash
-USER PID: 594836   PPID: 594834  Iteration: 1 ---before sleeping
-USER PID: 594837   PPID: 594834  Iteration: 1 ---before sleeping
-USER PID: 594835   PPID: 594834  Iteration: 1 ---before sleeping
-USER PID: 594838   PPID: 594834  Iteration: 1 ---before sleeping
-USER PID: 594836   PPID: 594834  Iteration: 1 ---after sleeping
+USER PID: 3986223   PPID: 3986222  Iteration: 1 ---before sleeping
+USER PID: 3986224   PPID: 3986222  Iteration: 1 ---before sleeping
+USER PID: 3986223   PPID: 3986222  Iteration: 1 ---after sleeping
+USER PID: 3986223   PPID: 3986222  Iteration: 2 ---before sleeping
+USER PID: 3986224   PPID: 3986222  Iteration: 1 ---after sleeping
+USER PID: 3986224   PPID: 3986222  Iteration: 2 ---before sleeping
 ...
 ...
-USER PID: 594842   PPID: 594834  Iteration: 3 ---after sleeping
-All 6 children have finished running. Now terminating program.
+```
+Once all 4 iterations are completed for each child, both processes will terminate before the program ends. Child termination is conducted by using a call to **waitpid()**.
+```bash
+...
+...
+USER PID: 3986223   PPID: 3986222  Iteration: 4 ---after sleeping
+USER PID: 3986224   PPID: 3986222  Iteration: 4 ---after sleeping
+All 2 children have finished running. Now terminating program.
 ```
 
 ### Example 2:
-Similarly, this command:
+Similarly, if the user inputs this command:
 ```bash
 ./oss -n 8 
 ```
-The program runs:
+The program will run:
 - 8 processes **total**.
 - 1 process **simultaneously**.
 - 1 **iteration** of each process.
 #### Sample Output:
+Since -s and -t values were not inputted prior to program execution, all 8 processes will sleep for a single iteration *one at a time*. **waitpid()** then terminates each child before the next one can launch.
 ```bash
-USER PID: 595017   PPID: 595016  Iteration: 1 ---before sleeping
-USER PID: 595017   PPID: 595016  Iteration: 1 ---after sleeping
-USER PID: 595019   PPID: 595016  Iteration: 1 ---before sleeping
-USER PID: 595019   PPID: 595016  Iteration: 1 ---after sleeping
+USER PID: 3986788   PPID: 3986787  Iteration: 1 ---before sleeping
+USER PID: 3986788   PPID: 3986787  Iteration: 1 ---after sleeping
+USER PID: 3986789   PPID: 3986787  Iteration: 1 ---before sleeping
+USER PID: 3986789   PPID: 3986787  Iteration: 1 ---after sleeping
+USER PID: 3986790   PPID: 3986787  Iteration: 1 ---before sleeping
+USER PID: 3986790   PPID: 3986787  Iteration: 1 ---after sleeping
 ...
 ...
-USER PID: 595032   PPID: 595016  Iteration: 1 ---after sleeping
+```
+Once the 8 child processes all sleep for 1 second *one time*, the program terminates.
+```bash
+...
+...
+USER PID: 3986795   PPID: 3986787  Iteration: 1 ---after sleeping
 All 8 children have finished running. Now terminating program.
 ```
 
@@ -83,6 +100,7 @@ All 8 children have finished running. Now terminating program.
 - Created a simplified simulation for process management an operating system.
 - Used `getopt()` for command-line parsing and input handling.
 - Used `fork()` to create multiple child processes.
+- Used `sleep()` for segueing the runtimes of each process.
 - Used `waitpid()` to synchronize between child and parent processes.
 
 ## Tested On:
