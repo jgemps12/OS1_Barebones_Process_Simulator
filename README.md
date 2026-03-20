@@ -46,6 +46,7 @@ The program runs:
 - 2 processes **simultaneously**.
 - 4 **iterations** of each process (i.e., each child prints its PID and PPID three times).
 
+
 #### Sample Output:
 The program begins by launching 2 child processes (i.e., PIDs **3986223** and **3986224**) simultaneously. For each iteration, user.c calls **sleep()**, forcing each child to sleep for exactly 1 second before waking up. 
 ```bash
@@ -96,6 +97,7 @@ USER PID: 3986795   PPID: 3986787  Iteration: 1 ---after sleeping
 All 8 children have finished running. Now terminating program.
 ```
 
+
 ## Skills Learned:
 - Created a simplified simulation for process management in an operating system.
 - Used `getopt()` for command-line parsing and input handling.
@@ -107,6 +109,12 @@ All 8 children have finished running. Now terminating program.
 - Ubuntu 20.04.6 (LTS)
 - GCC 10.5.0
 - Make 4.2.1
+
+## Academic Integrity Notice:
+This repository contains coursework completed as part of my Bachelor's degree. It is publicly shared for educational and portfolio-related use only.
+
+If you are a student, DO NOT use this repository in any way that violates your institution's academic integrity policies. These violations include copying, reusing, or submitting any code (and other resources) as your own work.
+
 
 ## License:
 This project is licensed under the [MIT License](LICENSE).
